@@ -27,4 +27,7 @@ export const runLengthEncoding = (txt: string): string => {
 }
 
 /* Question 3 */
-export const isPaired = undefined;
+export const isPaired = (txt: string): boolean =>{
+    return 
+
+};
