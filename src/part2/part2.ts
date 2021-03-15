@@ -10,15 +10,20 @@ export const countVowels = (txt: string): number =>
     thats by using ramda intersection to findout if the current characture is a vowel.
     */
 
-/*
-/* Question 2 *
-export const runLengthEncoding = (txt: string): string => {
 
-    let A: Array<string>= stringToArray(txt);
-    console.log(Json.stringify(A));
-    console.log(["a","a","b","b"].reduce((acc,curr)=>acc.concat(curr),[]));
-}
-*/
+/* Question 2 */
+export const runLengthEncoding = (txt:string):string=> { 
+    // recursive function that split array of string to array of a linking letters array
+    const SplitToArrays = (empty: string[][], word: string[]): string[][] =>  { 
+        const x: string[][] = R.splitWhen(x=>x!==word[0],word);
+        return (R.isEmpty(x[1]))?  empty.concat([x[0]]): SplitToArrays(empty.concat([x[0]]),x[1]);
+    } // function that return 
+    const LinkLetterAndLength = (a: string[]):string => a[0]+((a.length===1)? "":a.length); 
+    // map with a Link every letter with Length and then linking all the string in the araay
+    const FuncAndLink= R.pipe(R.map(LinkLetterAndLength),R.reduce((acc,curr)=>acc+curr,""));
+    return R.empty(txt)? "":FuncAndLink(SplitToArrays([],stringToArray(txt)));
+    }
+
 
 /* Question 3 */
 export const isPaired = R.pipe(
@@ -42,14 +47,14 @@ export const isPaired = R.pipe(
             cur==='(' ? R.concat([cur],acc) :
             cur==='{' ? R.concat([cur],acc) :
             cur==='[' ? R.concat([cur],acc) :
-            acc 
+            acc
     ,[""]),
     ( resultarr: string[] ) => {
         /*
          if the string is legal so the array will only contain the 
          original and only value "" otherwise it will contain more
          values.
-        */
+        */ 
          return resultarr.length===1 ? true : false
     }
     );
