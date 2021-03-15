@@ -17,49 +17,42 @@ export const runLengthEncoding = (txt: string): string => {
 */
 /* Question 3 */
 export const isPaired = R.pipe(
-    ( txt: string ) => stringToArray( txt ),
-    ( txtar: string[] ) => txtar.filter( ch => R.intersection(['(',')','{','}','[',']'],[ch])),
-    ( bracketsarr: string[] ) => bracketsarr.reduce( ( acc , cur ) => {
-        const instF=(arr: any[])=>R.insert(0,"false",arr);
-        const removeFirst=(arr: any[])=>R.remove(0,1,arr);
-        switch(cur){
-            case ')':
-                return    acc[0]==='(' ? removeFirst(acc) : instF(acc);
-            case '}':
-                return    acc[0]==='{' ? removeFirst(acc) : instF(acc);
-            case ']':
-                return    acc[0]==='[' ? removeFirst(acc) : instF(acc);
-            case '(':
-            case '{':
-            case '[':
-                return    R.insert(0,cur,acc);
-            default: return acc;
-        }
-    },[""]),
-    ( resultarr: string[] ) => resultarr.filter( ch => R.intersection(['(','{','[','false'],[ch])).length===0 ? true : false
-);
+    ( txt: string ) => {
+        return stringToArray( txt );
+    },
+    ( bracketsarr: string[] ) => 
+        bracketsarr.reduce( ( acc , cur ) => 
+            //console.log("cur: "+cur+" |acc: "+acc);
+            cur===')' ? (acc[0]==='(' ? R.drop(1,acc) : R.concat(["false"],acc)) :
+            cur==='}' ? (acc[0]==='{' ? R.drop(1,acc) : R.concat(["false"],acc)) :
+            cur===']' ? (acc[0]==='[' ? R.drop(1,acc) : R.concat(["false"],acc)) :
+            cur==='(' ? R.concat([cur],acc) :
+            cur==='{' ? R.concat([cur],acc) :
+            cur==='[' ? R.concat([cur],acc) :
+            acc 
+    ,[""]),
+    ( resultarr: string[] ) => {
+       return resultarr.filter( ch => R.intersection(['(','{','[','false'],[ch])).length===1 ? true : false
+    }
+    );
 /*
 const foo=R.pipe(
-    ( txt: string ) => stringToArray( txt ),
-    ( txtar: string[] ) => txtar.filter( ch => R.intersection(['(',')','{','}','[',']'],[ch])),
-    ( bracketsarr: string[] ) => bracketsarr.reduce( ( acc , cur ) => {
-        const instF=(arr: any[])=>R.insert(0,"false",arr);
-        const removeFirst=(arr: any[])=>R.remove(0,1,arr);
-        switch(cur){
-            case ')':
-                return    acc[0]==='(' ? removeFirst(acc) : instF(acc);
-            case '}':
-                return    acc[0]==='{' ? removeFirst(acc) : instF(acc);
-            case ']':
-                return    acc[0]==='[' ? removeFirst(acc) : instF(acc);
-            case '(':
-            case '{':
-            case '[':
-                return    R.insert(0,cur,acc);
-            default: return acc;
-        }
-    },[""]),
-    ( resultarr: string[] ) => resultarr.filter( ch => R.intersection(['(','{','[','false'],[ch])).length===0 ? true : false
-);
+    ( txt: string ) => {
+        return stringToArray( txt );
+    },
+    ( bracketsarr: string[] ) => 
+        bracketsarr.reduce( ( acc , cur ) => 
+            //console.log("cur: "+cur+" |acc: "+acc);
+            cur===')' ? (acc[0]==='(' ? R.drop(1,acc) : R.concat(["false"],acc)) :
+            cur==='}' ? (acc[0]==='{' ? R.drop(1,acc) : R.concat(["false"],acc)) :
+            cur===']' ? (acc[0]==='[' ? R.drop(1,acc) : R.concat(["false"],acc)) :
+            cur==='(' ? R.concat([cur],acc) :
+            cur==='{' ? R.concat([cur],acc) :
+            cur==='[' ? R.concat([cur],acc) :
+            acc 
+    ,[""]),
+    ( resultarr: string[] ) => {
+       return resultarr.filter( ch => R.intersection(['(','{','[','false'],[ch])).length===1 ? true : false
+    }
+    );
 */
-console.log(isPaired("This is ([some]) {text}"));
