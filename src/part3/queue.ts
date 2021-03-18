@@ -2,8 +2,8 @@ import { State, bind } from "./state";
 import * as R from 'ramda';
 export type Queue = number[];
 
-export const enqueue = (x:number): State<Queue,number> => {
-    return (oldQueue: Queue) => [R.concat(oldQueue,[x]),x];
+export const enqueue = (x:number): State<Queue,undefined> => {
+    return (oldQueue: Queue) => [R.concat(oldQueue,[x]),undefined];
 };
 
 export const dequeue: State<Queue,number> = 
