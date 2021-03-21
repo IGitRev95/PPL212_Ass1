@@ -13,15 +13,16 @@ export const countVowels = (txt: string): number =>
 
 /* Question 2 */
 export const runLengthEncoding = (txt:string):string=> { 
-    // recursive function that split array of string to array of a linking letters array
+        // recursive function that split array of string to array of a linking letters array
+    // example: ['a','a','b','b','a'] => [['a','a'],['b','b'],['a']]
     const SplitToArrays = (empty: string[][], word: string[]): string[][] =>  { 
         const x: string[][] = R.splitWhen(x=>x!==word[0],word);
         return (R.isEmpty(x[1]))?  empty.concat([x[0]]): SplitToArrays(empty.concat([x[0]]),x[1]);
-    } // function that return 
+    } // function that return for every array of the same letter string of the letter with the length example: ['a','a','a'] => 'a3
     const LinkLetterAndLength = (a: string[]):string => a[0]+((a.length===1)? "":a.length); 
-    // map with a Link every letter with Length and then linking all the string in the araay
+    // map with a Link every letter with Length and then linking all the string in the array
     const FuncAndLink= R.pipe(R.map(LinkLetterAndLength),R.reduce((acc,curr)=>acc+curr,""));
-    return R.empty(txt)? "":FuncAndLink(SplitToArrays([],stringToArray(txt)));
+    return R.isEmpty(txt)? "":FuncAndLink(SplitToArrays([],stringToArray(txt)));
     }
 
 
